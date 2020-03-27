@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/cell_size"
+    android:layout_height="@dimen/cell_top_height">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="90dp"
+        android:layout_height="@dimen/header_row_height"
+        android:background="@drawable/month"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="2"
+            android:textColor="#FD7924"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/vcen"
+            app:layout_constraintBottom_toTopOf="@+id/tv_year"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/vcen"
+            android:layout_width="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_year"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="かつ"
+            android:textColor="#FD7924"
+            app:layout_constraintStart_toEndOf="@+id/vcen"
+            android:layout_marginLeft="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_year"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#FD7924"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/img_line"
+        android:layout_width="@dimen/cell_size"
+        android:layout_height="@dimen/cell_size"
+        android:src="@drawable/pipe_"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_event"
+        android:layout_width="@dimen/event_small_size"
+        android:layout_height="@dimen/event_small_size"
+        android:background="@drawable/node"
+        android:gravity="center"
+        android:text="23"
+        android:textColor="#333"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/img_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_line"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
