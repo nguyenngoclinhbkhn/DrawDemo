@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.drawdemo.custom.ImageLineView
 import com.example.drawdemo.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -139,8 +140,9 @@ class MainJV : AppCompatActivity() {
                             tvYear.text = y
                         }
 
-                        val img = cellView.findViewById<ImageView>(R.id.img_line)
-                        Picasso.get().load(cell.line.imgRes).into(img)
+                        val img = cellView.findViewById<ImageLineView>(R.id.img_line)
+                        img.setLineType(cell.line)
+//                        Picasso.get().load(cell.line.imgRes).into(img)
 
                         val tvDate = cellView.findViewById<TextView>(R.id.tv_event)
                         if (cell.event != null) {

@@ -120,7 +120,7 @@
         app:horizontalPanEnabled="true"
         app:maxZoom="4.2"
         app:maxZoomType="zoom"
-        app:minZoom="1.0"
+        app:minZoom="0.5"
         app:minZoomType="zoom"
         app:oneFingerScrollEnabled="true"
         app:overPinchable="true"

@@ -61,7 +61,7 @@
             android:textStyle="bold" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
+    <com.example.drawdemo.custom.ImageLineView
         android:id="@+id/img_line"
         android:layout_width="@dimen/cell_size"
         android:layout_height="@dimen/cell_size"
