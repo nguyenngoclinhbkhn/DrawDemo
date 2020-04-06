@@ -65,7 +65,7 @@
         android:id="@+id/img_line"
         android:layout_width="@dimen/cell_size"
         android:layout_height="@dimen/cell_size"
-        android:src="@drawable/pipe_"
+        android:src="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

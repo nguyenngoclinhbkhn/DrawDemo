@@ -112,49 +112,29 @@
 		"date": "30/7/2020",
 		"icon": "https://img.icons8.com/cotton/2x/gift.png"
 	},
-
 	{
 		"id": 19,
-		"nameevent": "山の日",
-		"date": "10/8/2020",
-		"icon": "https://img.icons8.com/cotton/2x/gift.png"
-	},
-	{
-		"id": 20,
-		"nameevent": "お盆 ",
-		"date": "11/8/2020",
-		"icon": "https://img.icons8.com/cotton/2x/gift.png"
-	},
-
-	{
-		"id": 21,
-		"nameevent": "敬老の日",
-		"date": "21/9/2020",
-		"icon": "https://img.icons8.com/cotton/2x/gift.png"
-	},
-
-	{
-		"id": 22,
-		"nameevent": "ハーフ パースデー",
-		"date": "1/10/2020",
-		"icon": "https://img.icons8.com/cotton/2x/gift.png"
-	},
-	{
-		"id": 23,
-		"nameevent": "ハロウィン",
-		"date": "31/10/2020",
-		"icon": "https://www.shareicon.net/data/256x256/2015/08/21/88388_bird_256x256.png"
-	},
-	{
-		"id": 24,
 		"nameevent": "オリシナル イベント",
 		"date": "5/12/2020",
 		"icon": "https://img.icons8.com/cotton/2x/gift.png"
 	},
 	{
-		"id": 25,
+		"id": 20,
 		"nameevent": "フリスマス",
 		"date": "24/12/2020",
 		"icon": "https://img.icons8.com/cotton/2x/gift.png"
-	}
+	},
+	{
+         "id": 21,
+         "nameevent": "フリスマス",
+         "date": "10/12/2060",
+        "icon": "https://img.icons8.com/cotton/2x/gift.png"
+    },
+    {
+     	"id": 22,
+     	"nameevent": "フリスマス",
+     	"date": "24/12/2060",
+     	"icon": "https://img.icons8.com/cotton/2x/gift.png"
+    }
+
 ]

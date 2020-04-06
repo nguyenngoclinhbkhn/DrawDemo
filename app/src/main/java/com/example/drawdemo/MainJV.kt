@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.google.gson.reflect.TypeToken
 import com.otaliastudios.zoom.ZoomApi
 import com.otaliastudios.zoom.ZoomLayout
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main_2.*
 import kotlinx.android.synthetic.main.character_animate_view.view.*
 
 class MainJV : AppCompatActivity() {
@@ -57,8 +59,8 @@ class MainJV : AppCompatActivity() {
             )
 
         // fake last event
-        events[1].isLastEvent = true
-        events[24].isNextEvent = true
+        events[20].isLastEvent = true
+        events[21].isNextEvent = true
 
         EventHelper.findLastAndNextEvent(events = events as MutableList<Event>)
 
@@ -92,12 +94,24 @@ class MainJV : AppCompatActivity() {
 
         Log.e("LINE", "END: prepared.")
 
+        btnSearch.setOnClickListener {
+            zoomLayout.moveTo(3f, -cellStep * 492, 0f, true)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Handler().postDelayed({
+            zoomLayout.moveTo(3f,cellStep * 360, 0f, true)
+            Log.e("TAG", "ve ban dau")
+        }, 10000)
     }
 
     private fun drawMap(hmEventCells: MutableMap<String, MutableList<EventCell>>) {
         hmEventCells.let {
             val keys = hmEventCells.keys
-            rootFrame.removeAllViews()
+//            rootFrame.removeAllViews()
             val inflater = LayoutInflater.from(this)
             val hrzContainer =
                 inflater.inflate(R.layout.horizontal_column_container, null, false) as LinearLayout
@@ -137,36 +151,6 @@ class MainJV : AppCompatActivity() {
                         }
                         tvDate.text = cell.event?.getDay()
                         columnContainer.addView(cellView)
-//
-//                        if ((isNeedGetMovingPoint) || cell.event?.isNextEvent == true) {
-//                            // calculate animation start points (x,y)
-//                            if (startColumnIndex == columnIndex) {
-//                                val y = headerHeight + (eIndex) * cellStep
-//                                movePoints.add(MoveItem("y", y))
-//                            } else {
-//                                val x = columnIndex * cellStep
-//                                movePoints.add(MoveItem("x", x))
-//                            }
-//                            if (cell.event?.isNextEvent == true) {
-//                                isNeedGetMovingPoint = false
-//                            }
-//                        }
-//
-//                        // calculate animation.
-//                        if (cell.event?.isLastEvent == true) {
-//                            // reset
-//                            startX = 0.0f
-//                            startY = resources.getDimension(R.dimen.header_row_height)
-//                            // calculate animation start points (x,y)
-//                            startX = (columnIndex) * cellStep
-//                            startY += (eIndex) * cellStep
-//                            // save start column
-//                            startColumnIndex = columnIndex
-//                            isNeedGetMovingPoint = true
-//
-//                            // clear moving list
-//                            movePoints.clear()
-//                        }
 
                     } // end for cells
                 }
@@ -176,6 +160,7 @@ class MainJV : AppCompatActivity() {
             rootFrame.addView(hrzContainer)
         }
 
+//        zoomLayout.moveTo()
         // fun move view to current event: need to calculate x,y
 //        zoomLayout.postDelayed({
 //            val x = if (startColumnIndex < 2) 0f else ((startColumnIndex) * cellStep)
