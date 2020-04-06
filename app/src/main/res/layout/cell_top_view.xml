@@ -66,6 +66,7 @@
         android:layout_width="@dimen/cell_size"
         android:layout_height="@dimen/cell_size"
         android:src="@android:color/transparent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
