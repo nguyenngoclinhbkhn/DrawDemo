@@ -60,6 +60,16 @@ class ImageLineView: ImageView {
     fun setLineType(lineType: LineType){
         lineTypeTop = lineType
         invalidate()
+
+    }
+
+    fun setStrokeLine(width : Float){
+        paintTab.strokeWidth = width
+        invalidate()
+    }
+    fun setColor(color: Int){
+        paintTab.setColor(color)
+        invalidate()
     }
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)

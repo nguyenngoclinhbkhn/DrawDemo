@@ -12,89 +12,55 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="222dp"
-        android:orientation="vertical"
-        android:gravity="center" >
+        android:gravity="center"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:visibility="invisible"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Last"
-                android:layout_gravity="center"
-                android:gravity="center"></TextView>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="3dp"
-                android:hint="day..."
-                android:id="@+id/edLastDay"></EditText>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Month..."
-                android:layout_margin="3dp"
-                android:id="@+id/edLastMonth"></EditText>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Year..."
-                android:layout_margin="3dp"
-                android:id="@+id/edLastYears"></EditText>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:visibility="invisible"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Next"
-                android:layout_gravity="center"
-                android:gravity="center"></TextView>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="3dp"
-                android:hint="day..."
-                android:id="@+id/edNextDay"></EditText>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Month..."
-                android:layout_margin="3dp"
-                android:id="@+id/edNextMonth"></EditText>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Year..."
-                android:layout_margin="3dp"
-                android:id="@+id/edNextYear"></EditText>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/btnIncreaseSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/btnSearch"></Button>
+                android:textAllCaps="false"
+                android:text="Increase"></Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnDecreaseSize"
+                android:textAllCaps="false"
+                android:layout_gravity="center"
+                android:text="Decrease"></Button>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/btnChageColor"></Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LED"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/btnLef"></Button>
+
         </LinearLayout>
 
     </LinearLayout>

@@ -3,13 +3,13 @@ package com.example.drawdemo
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,15 +19,15 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.otaliastudios.zoom.ZoomApi
 import com.otaliastudios.zoom.ZoomLayout
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main_2.*
 import kotlinx.android.synthetic.main.character_animate_view.view.*
 
-class MainJV : AppCompatActivity() {
+
+class MainJV : AppCompatActivity(), View.OnClickListener {
 
     lateinit var rootFrame: FrameLayout
     lateinit var zoomLayout: ZoomLayout
-
+    lateinit var handler: Handler
     private var startY = 0.0f
     private var startX = 0.0f
     private var startColumnIndex = 0
@@ -35,12 +35,18 @@ class MainJV : AppCompatActivity() {
     private var movePoints: MutableList<MoveItem> = mutableListOf()
     private var isNeedGetMovingPoint = false
 
+    private val arrayColor = arrayListOf<Int>(
+        Color.RED,
+        Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGRAY, Color.GREEN,
+        Color.LTGRAY, Color.MAGENTA, Color.YELLOW
+    )
 
     private var cellStep = 0.0f
     private var headerHeight = 0.0f
     private var initZoom = 0.0f
     private lateinit var startEvent: Event
-
+    private lateinit var events: List<Event>
+    private lateinit var arrayList: ArrayList<ImageLineView>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_2)
@@ -52,17 +58,24 @@ class MainJV : AppCompatActivity() {
         zoomLayout = findViewById(R.id.zoom_layout)
 
         val js = assets.open("json_events").bufferedReader().use { it.readText() }
-        val events =
-            Gson().fromJson<List<Event>>(
-                js,
-                object :
-                    TypeToken<List<Event?>?>() {}.type
-            )
+
+        events = Gson().fromJson<List<Event>>(
+            js,
+            object :
+                TypeToken<List<Event?>?>() {}.type
+        )
+
+        sortEventIncrease(eventList = events)
 
         // fake last event
         events[20].isLastEvent = true
         events[21].isNextEvent = true
 
+        for (test in events) {
+            Log.e("TAG", "Date ${test.date}")
+        }
+
+        handler = Handler()
         EventHelper.findLastAndNextEvent(events = events as MutableList<Event>)
 
         Log.e("LINE", "Start")
@@ -76,6 +89,8 @@ class MainJV : AppCompatActivity() {
         val startYear = firstEvent.getYear().toInt()
         val endYear = lastEvent.getYear().toInt()
 
+
+        arrayList = ArrayList()
         var minZoom = Constants.MIN_ZOOM
         var maxZoom = Constants.MAX_ZOOM
         if (endYear > startYear) {
@@ -95,18 +110,104 @@ class MainJV : AppCompatActivity() {
 
         Log.e("LINE", "END: prepared.")
 
-        btnSearch.setOnClickListener {
-            zoomLayout.moveTo(3f, -cellStep * 492, 0f, true)
+        btnChageColor.setOnClickListener(this)
+        btnDecreaseSize.setOnClickListener(this)
+        btnIncreaseSize.setOnClickListener(this)
+        btnLef.setOnClickListener(this)
+    }
+
+    private fun sortEventIncrease(eventList: List<Event>): List<Event> {
+        for (i in 0 until eventList.size - 1) {
+            var minArr = i
+            for (j in i + 1 until eventList.size) {
+                val arrayDateMin = eventList[minArr].date.split("/")
+                val arrayDateCompare = eventList[j].date.split("/")
+                val yearMin = arrayDateMin[2].toInt()
+                val monthMin = arrayDateMin[1].toInt()
+                val dayMin = arrayDateMin[0].toInt()
+                val yearCompare = arrayDateCompare[2].toInt()
+                val monthCompare = arrayDateCompare[1].toInt()
+                val dayCompare = arrayDateCompare[0].toInt()
+                if (yearMin > yearCompare) {
+                    minArr = j
+                } else if (yearMin == yearCompare) {
+                    if (monthMin > monthCompare) {
+                        minArr = j
+                    } else if (monthMin == monthCompare) {
+                        if (dayMin > dayCompare) {
+                            minArr = j
+                        }
+                    }
+                }
+            }
+            if (i != minArr) swap(eventList, minArr, i)
         }
 
+        Log.e("TAG", "Sort ok")
+
+        return eventList
+    }
+
+    // sau nay se dua vao background thread, hoac se chia nhieu luong de sap xep
+    private fun swap(eventList: List<Event>, a: Int, b: Int) {
+        val id = eventList[a].id
+        val date = eventList[a].date
+        val icon = eventList[a].icon
+        val name = eventList[a].nameevent
+        val lastEvent = eventList[a].isLastEvent
+        val nextEvent = eventList[a].isNextEvent
+
+        eventList[a].id = eventList[b].id
+        eventList[a].date = eventList[b].date
+        eventList[a].icon = eventList[b].icon
+        eventList[a].nameevent = eventList[b].nameevent
+        eventList[a].isLastEvent = eventList[b].isLastEvent
+        eventList[a].isNextEvent = eventList[b].isNextEvent
+
+        eventList[b].id = id
+        eventList[b].date = date
+        eventList[b].icon = icon
+        eventList[b].nameevent = name
+        eventList[b].isLastEvent = lastEvent
+        eventList[b].isNextEvent = nextEvent
+    }
+
+    private fun moveView(lastEvent: Event) {
+        val arrayDate = events[0].date.split("/")
+        val monthFirst = arrayDate[1].toInt()
+        val yearFirst = arrayDate[2].toInt()
+        val monthLast = lastEvent.date.split("/")[1].toInt()
+        val yearLast = lastEvent.date.split("/")[2].toInt()
+        val numberMonth = (yearLast - yearFirst) * 2 - (12 - monthFirst) - monthLast - 1
+        val postition = (numberMonth * cellStep)
+        Log.e("TAG", "postition need $postition")
+        zoomLayout.moveTo(3f, postition, 0f, true)
     }
 
     override fun onResume() {
         super.onResume()
         Handler().postDelayed({
-            zoomLayout.moveTo(3f,cellStep * 360, 0f, true)
+            //            zoomLayout.moveTo(3f, 9240.0f, 0f, true)
+            moveView(events[21])
+//            zoomLayout.moveTo(3f, -9240f, 0f, true)
             Log.e("TAG", "ve ban dau")
-        }, 10000)
+        }, 1000)
+
+
+
+    }
+
+
+    private val runnable: Runnable = object : Runnable {
+        override fun run() {
+            val color = (Math.random() * arrayColor.size.toInt() - 1).toInt()
+            for (test in arrayList) {
+                test.setColor(arrayColor[color])
+            }
+            Log.e("TAG", "run")
+            handler.postDelayed(this, 500)
+
+        }
     }
 
     private fun drawMap(hmEventCells: MutableMap<String, MutableList<EventCell>>) {
@@ -142,6 +243,7 @@ class MainJV : AppCompatActivity() {
 
                         val img = cellView.findViewById<ImageLineView>(R.id.img_line)
                         img.setLineType(cell.line)
+                        arrayList.add(img)
 //                        Picasso.get().load(cell.line.imgRes).into(img)
 
                         val tvDate = cellView.findViewById<TextView>(R.id.tv_event)
@@ -253,6 +355,7 @@ class MainJV : AppCompatActivity() {
             AnimatorSet().apply {
                 playSequentially(animators as List<Animator>?)
                 start()
+                moveView(events[21])
             }
             Log.d("RULE", "current : x = ${zoomLayout.panX}")
         }, 100)
@@ -260,5 +363,37 @@ class MainJV : AppCompatActivity() {
 
     private fun getNextAnimator(view: View, xOrY: String, point: Float): ObjectAnimator {
         return ObjectAnimator.ofFloat(view, xOrY, point).setDuration(1600)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btnChageColor -> {
+                val color = (Math.random() * arrayColor.size.toInt() - 1).toInt()
+                for (test in arrayList) {
+                    test.setColor(arrayColor[color])
+                }
+            }
+            R.id.btnIncreaseSize -> {
+
+            }
+            R.id.btnDecreaseSize -> {
+
+            }
+            R.id.btnLef -> {
+                handler.postDelayed({
+                    mRunnable.run()
+                }, 500)
+            }
+        }
+    }
+    private var mRunnable = object: Runnable {
+        override fun run() {
+            val color = (Math.random() * arrayColor.size.toInt() - 1).toInt()
+            for (test in arrayList) {
+                test.setColor(arrayColor[color])
+            }
+            handler.postDelayed(this, 500)
+        }
+
     }
 }
